@@ -62,8 +62,8 @@ const TodoList = () => {
             <div className=" flex flex-col-reverse  sm:flex-row justify-end sm:justify-between gap-2">
               {todoId === todo.id && editMode ? (
                 <div className="relative">
-                  <textarea value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} rows="4" className="w-full px-2 pt-4 pb-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="add new task" />
-                  <button onClick={handleCancel} className="absolute top-0 right-0 mx-auto flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 " title="cancel">
+                  <textarea value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)}  className="w-full min-h-[80px] max-h-[80px] sm:max-h-[85px] md:max-h-[90px] lg:max-h-[95px] resize-y overflow-hidden px-2 pt-4 pb-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="add new task" />
+                  <button onClick={handleCancel} className="absolute -top-1 -left-1 mx-auto flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 " title="cancel">
                     <XMarkIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                   </button>
                 </div>
