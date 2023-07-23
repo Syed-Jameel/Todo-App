@@ -12,10 +12,10 @@ const Pagination = ({ handlePageChange, currentPage, totalTodos, todosPerPage, i
       {totalTodos > todosPerPage && (
         <div className="w-full flex items-center justify-between border-t border-gray-200 py-2 mt-4 ">
           <div className="flex flex-1 justify-between md:hidden">
-            <p onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : currentPage)} className="cursor-pointer relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-900 hover:text-gray-100 hover:bg-gray-700">
+            <p onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : currentPage)} className="cursor-pointer relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-900 hover:text-gray-100 hover:bg-[#051937]">
               Previous
             </p>
-            <p onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : currentPage)} className="cursor-pointer relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-900 hover:text-gray-100 hover:bg-gray-700 ">
+            <p onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : currentPage)} className="cursor-pointer relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-900 hover:text-gray-100 hover:bg-[#051937] ">
               Next
             </p>
           </div>
@@ -32,7 +32,7 @@ const Pagination = ({ handlePageChange, currentPage, totalTodos, todosPerPage, i
                   <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                 </p>
                 {Array.from({ length: totalPages }, (_, index) => (
-                  <p key={index} onClick={() => handlePageChange(index + 1)} className={`cursor-pointer relative z-10 inline-flex items-center ${index + 1 === currentPage ? "bg-gray-700  text-white" : " text-gray-700"} px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-700 hover:bg-gray-300 hover:text-white`}>
+                  <p key={index} onClick={() => handlePageChange(index + 1)} className={`cursor-pointer relative z-10 inline-flex items-center ${index + 1 === currentPage ? "bg-[#051937]  text-white" : " text-gray-700"} px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-700 hover:bg-gray-300 hover:text-white`}>
                     {index + 1}
                   </p>
                 ))}
