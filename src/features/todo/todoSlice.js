@@ -27,6 +27,7 @@ export const fetchDoneTodosAsync = createAsyncThunk("todo/fetchDoneTodos", async
 export const createTodoAsync = createAsyncThunk("todo/createTodo", async (newTodo) => {
   const response = await createTodo(newTodo);
   // The value we return becomes the `fulfilled` action payload
+  console.log(response);
   return response.data;
 });
 
@@ -97,5 +98,6 @@ export const todoSlice = createSlice({
 
 export const selectAllTodos = (state) => state.todo.todos;
 export const selectTodosStatus = (state) => state.todo.status;
+export const selectTodoCreated = (state) => state.todo.todoCreated;
 
 export default todoSlice.reducer;

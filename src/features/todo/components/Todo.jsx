@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createTodoAsync, fetchActiveTodosAsync, fetchAllTodosAsync, fetchDoneTodosAsync } from "../todoSlice";
-import { FunnelIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { createTodoAsync, fetchActiveTodosAsync, fetchAllTodosAsync, fetchDoneTodosAsync, selectAllTodos, selectTodoCreated } from "../todoSlice";
+import { FunnelIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import Layout from "../../common/layout";
 import { useForm, useController } from "react-hook-form";
 import TodoList from "./TodoList";
+import Pagination from "../../common/Pagination";
+import { toast } from "react-toastify";
 
 const Todo = () => {
   const [openToFilter, setOpenToFiletr] = useState(false);
   const [selectedFilterOption, setSelectedFilterOption] = useState("All");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const todoCreated = useSelector(selectTodoCreated);
   const dispatch = useDispatch();
   const {
     handleSubmit,
-    watch,
+    reset,
     control,
     formState: { errors },
   } = useForm();
@@ -38,40 +41,76 @@ const Todo = () => {
   });
 
   const onSubmit = (data) => {
-    dispatch(createTodoAsync({ ...data, completed: false, id: data.id++ }));
+    const newTodo = { ...data, completed: false };
+    dispatch(createTodoAsync(newTodo))
+      .then(() => {
+        toast.success("👍todo added successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    if (selectedFilterOption === "Done") {
+      setSelectedFilterOption("All");
+      dispatch(fetchAllTodosAsync());
+    }
     reset();
   };
 
   const handleActive = () => {
     dispatch(fetchActiveTodosAsync());
     setSelectedFilterOption("Active");
+    setCurrentPage(1);
   };
 
   const handleDone = () => {
     dispatch(fetchDoneTodosAsync());
     setSelectedFilterOption("Done");
+    setCurrentPage(1);
   };
 
   const handleAll = () => {
     dispatch(fetchAllTodosAsync());
     setSelectedFilterOption("All");
+    setCurrentPage(1);
   };
+
+  //pagination
+  const todos = useSelector(selectAllTodos);
+  const decendingTodos = todos.slice().sort((a, b) => b.id - a.id);
+  const todosPerPage = 8;
+  const totalTodos = todos.length;
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  //Calculating the index of the first and last Todo item to display on the current page
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = decendingTodos.slice(indexOfFirstTodo, indexOfLastTodo);
 
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
           <div className="flex justify-center items-center">
-            <div className="mt:12 sm:mt-16 lg:mt-24  w-full lg:w-1/2 flex flex-row justify-center gap-2">
-              <div className="w-full sm:max-w-lg sm:mx-auto">
-                <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <div className="scale-75 sm:scale-100 z-20 mt-6 sm:mt-16 lg:mt-24  w-full lg:w-1/2 flex flex-row justify-between lg:justify-center gap-2">
+              <div className="w-full sm:max-w-lg ">
+                <form noValidate onSubmit={handleSubmit(onSubmit)} className="">
                   <div className="relative">
-                    <input {...newTaskController.field} type="text" className="block h-12 lg:h-full w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 shadow-lg" placeholder="add new task" />
-                    <button type="submit" className="text-white px-4 flex items-center justify-center  absolute right-1 bottom-1 top-1 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-xs lg:text-sm  dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                      Add Task
-                    </button>
+                    <input {...newTaskController.field} type="text" className="block h-12  lg:h-full w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 shadow-lg" placeholder="add new task" />
+                    <div className="hidden sm:block">
+                      <button type="submit" className="text-white px-4 flex items-center justify-center  absolute right-1 bottom-1 top-1 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-xs lg:text-sm  dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                        Add Task
+                      </button>
+                    </div>
+
+                    <div className="block sm:hidden">
+                      <button className=" text-white  flex items-center justify-center  absolute right-1 bottom-1 top-1 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-xs lg:text-sm  dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                        <PlusCircleIcon className="h-10 w-10 text-gray-100" aria-hidden="true" />
+                      </button>
+                    </div>
                   </div>
-                  {errors.title ? <span className="text-red-600">{errors.title.message}</span> : <span className="text-red-600">&nbsp;</span>}
+                  {errors.title ? <span className="text-red-600 pl-4">{errors.title.message}</span> : <span className="text-red-600">&nbsp;</span>}
                 </form>
               </div>
 
@@ -96,8 +135,9 @@ const Todo = () => {
             </div>
           </div>
 
-          <div className="lg:mt-14 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            <TodoList />
+          <div className="mt-6 lg:mt-14 min-h-[60vh] flex flex-col justify-between rounded-lg">
+            <TodoList selectedFilterOption={selectedFilterOption} setSelectedFilterOption={setSelectedFilterOption} currentTodos={currentTodos} />
+            <Pagination handlePageChange={handlePageChange} currentPage={currentPage} totalTodos={totalTodos} todosPerPage={todosPerPage} indexOfFirstTodo={indexOfFirstTodo} indexOfLastTodo={indexOfLastTodo} />
           </div>
         </div>
       </div>

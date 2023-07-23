@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 } */
+
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Montserrat:wght@300&display=swap');
+
+*{
+  font-family: 'Arvo', serif;
+  font-family: 'Montserrat', sans-serif;
+}

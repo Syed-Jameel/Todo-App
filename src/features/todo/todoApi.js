@@ -55,8 +55,7 @@ export function createTodo(newTodo) {
 
 export function updateTodo(updatedTodo) {
   return new Promise(async (resolve) => {
-    console.log(updatedTodo.id);
-    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${+updatedTodo.id}`, {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, {
       method: "PATCH",
       body: JSON.stringify(updatedTodo),
       headers: { "Content-Type": "application/json" },
