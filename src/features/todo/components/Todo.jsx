@@ -8,6 +8,7 @@ import TodoList from "./TodoList";
 import Pagination from "../../common/Pagination";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import ScrollToTopButton from "../../common/ScrollToTopButton";
 
 const Todo = () => {
   const [openToFilter, setOpenToFiletr] = useState(false);
@@ -92,7 +93,7 @@ const Todo = () => {
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl px-4 pt-12 pb-20 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
           <motion.div initial={{ opacity: 0, scale: 0.3 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5 }}>
             <div className="flex justify-center items-center">
               <div className="scale-75 sm:scale-100 z-20 mt-6 sm:mt-16 lg:mt-24  w-full lg:w-1/2 flex flex-row justify-between lg:justify-center gap-2">
@@ -107,7 +108,7 @@ const Todo = () => {
                       </div>
 
                       <div className="block sm:hidden">
-                        <button className=" text-white  flex items-center justify-center  absolute right-1 bottom-1 top-1 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-xs lg:text-sm  dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                        <button className=" text-white  flex items-center justify-center  absolute right-1 bottom-1 top-1 bg-[#051937] hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-xs lg:text-sm  dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                           <PlusCircleIcon className="h-10 w-10 text-gray-100" aria-hidden="true" />
                         </button>
                       </div>
@@ -143,6 +144,7 @@ const Todo = () => {
             <Pagination handlePageChange={handlePageChange} currentPage={currentPage} totalTodos={totalTodos} todosPerPage={todosPerPage} indexOfFirstTodo={indexOfFirstTodo} indexOfLastTodo={indexOfLastTodo} />
           </div>
         </div>
+        <ScrollToTopButton />
       </div>
     </Layout>
   );
