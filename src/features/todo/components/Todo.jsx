@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodoAsync, fetchActiveTodosAsync, fetchAllTodosAsync, fetchDoneTodosAsync, selectAllTodos, selectTodoCreated } from "../todoSlice";
+import { createTodoAsync, fetchActiveTodosAsync, fetchAllTodosAsync, fetchDoneTodosAsync, selectAllTodos } from "../todoSlice";
 import { FunnelIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import Layout from "../../common/Layout";
 import { useForm, useController } from "react-hook-form";
@@ -14,7 +14,7 @@ const Todo = () => {
   const [openToFilter, setOpenToFiletr] = useState(false);
   const [selectedFilterOption, setSelectedFilterOption] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const todoCreated = useSelector(selectTodoCreated);
+
   const dispatch = useDispatch();
   const {
     handleSubmit,

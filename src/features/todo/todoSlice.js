@@ -27,7 +27,6 @@ export const fetchDoneTodosAsync = createAsyncThunk("todo/fetchDoneTodos", async
 export const createTodoAsync = createAsyncThunk("todo/createTodo", async (newTodo) => {
   const response = await createTodo(newTodo);
   // The value we return becomes the `fulfilled` action payload
-  console.log(response);
   return response.data;
 });
 
@@ -53,35 +52,35 @@ export const todoSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchAllTodosAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         state.todos = action.payload;
       })
       .addCase(fetchActiveTodosAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchActiveTodosAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         state.todos = action.payload;
       })
       .addCase(fetchDoneTodosAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchDoneTodosAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         state.todos = action.payload;
       })
       .addCase(createTodoAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(createTodoAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         state.todos.push(action.payload);
       })
       .addCase(updateTodoAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(updateTodoAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         const index = state.todos.findIndex((todo) => todo.id === action.payload.id);
         state.todos[index] = action.payload;
       })
@@ -89,7 +88,7 @@ export const todoSlice = createSlice({
         state.status = "loading";
       })
       .addCase(deleteTodoAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "Success";
         const index = state.todos.findIndex((todo) => todo.id === action.payload.id);
         state.todos.splice(index, 1);
       });
@@ -98,6 +97,5 @@ export const todoSlice = createSlice({
 
 export const selectAllTodos = (state) => state.todo.todos;
 export const selectTodosStatus = (state) => state.todo.status;
-export const selectTodoCreated = (state) => state.todo.todoCreated;
 
 export default todoSlice.reducer;

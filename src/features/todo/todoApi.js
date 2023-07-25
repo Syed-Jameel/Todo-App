@@ -68,7 +68,7 @@ export function updateTodo(updatedTodo) {
 
 export function deleteTodo(todo) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users/1/todos/${todo.id}`, {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, {
       method: "DELETE",
       body: JSON.stringify(todo),
       headers: { "Content-Type": "application/json" },
